@@ -8,8 +8,8 @@ _________________________________________________________________
 """)
 
 #load data
-todos = reader("files\\todo_list.txt")
-completed_tasks = reader("files\\completed_list.txt")
+todos = reader("files/todo_list.txt")
+completed_tasks = reader("files/completed_list.txt")
 
 while True:
     user_action = input("Type add, show, edit, complete or exit and todo item\n :")
@@ -65,7 +65,7 @@ while True:
     except ValueError:
         print("Please enter a valid value.")
 # reupdate the file with tasks
-writer("files\\todo_list.txt", todos)
-writer("files\\completed_list.txt", completed_tasks)
+writer("files/todo_list.txt", todos)
+writer("files/completed_list.txt", completed_tasks)
 
 print("Thanks for using the cmd line task manager app \n   Byeeee!!!!")

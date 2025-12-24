@@ -1,29 +1,12 @@
+from functions import * #using functions in functions.py
+import time
+
 print("""
 _________________________________________________________________
              Welcome to the ToDo Task Manager app 
 _________________________________________________________________
 """)
-#reads the file, splits into list based on \n
-def reader(filepath):
-    with open(filepath, "r") as file:
-        tasks = file.read().split("\n")
-    print("Tasks loaded from: " + filepath)
-    return list(filter(None, tasks)) #Filters blank list item if any
 
-#writes the data into file, by adding \n at end of each list item
-def writer(filepath, tasks):
-    with open(filepath, "w") as file:
-        for task in tasks:
-            file.write(task + "\n")
-    print("Tasks written to file: " + filepath)
-def display_available_tasks(tasks):
-    print(f"""
-_________________________________________________________________
-             Below are the available tasks: 
-_________________________________________________________________
-""")
-    for index, i in enumerate(tasks):
-        print(f"{index + 1}. {i}")
 #load data
 todos = reader("files\\todo_list.txt")
 completed_tasks = reader("files\\completed_list.txt")
@@ -32,9 +15,10 @@ while True:
     user_action = input("Type add, show, edit, complete or exit and todo item\n :")
     user_action = user_action.lower().strip()
     try:
+        #condition to check is add is present in beginning
         if user_action.startswith("add"):
             todo = user_action.replace("add ", "")
-            todos.append(todo)
+            todos.append(f"{get_time()} : "+todo)
 
         elif user_action.startswith("show"):
             display_available_tasks(todos)
@@ -42,7 +26,7 @@ while True:
             todo = user_action.replace("edit ", "")
             for i in todos:
                 if todo in i:
-                    todos[todos.index(i)] = f"{input("Please enter new todo item to replace: ")}"
+                    todos[todos.index(i)] = f"{get_time()} : "+f"{input("Please enter new todo item to replace: ")}"
                     found = True
                     break
                 else:
@@ -55,7 +39,7 @@ while True:
     ------------------------------------------------------------------------------------------""")
                 display_available_tasks(todos)
                 index = int(input(f"Unable to find the todo item to edit. please enter the index number of item: "))
-                todos[index-1] = f"{input("Please enter new todo item to replace: ")}"
+                todos[index-1] = f"{get_time()} : "+f"{input("Please enter new todo item to replace: ")}"
 
         elif user_action.startswith("complete"):
             todo = user_action.replace("complete ", "")
@@ -69,12 +53,12 @@ while True:
                     continue
             if not found:
                 print("""
-            ------------------------------------------------------------------------------------------
-                                         Below are the current Todo items
-            ------------------------------------------------------------------------------------------""")
-                for i1 in todos:
-                    print(i1)
+------------------------------------------------------------------------------------------
+                            Below are the current Todo items
+------------------------------------------------------------------------------------------""")
+                display_available_tasks(todos)
                 index = int(input(f"Unable to find the todo item to complete. please enter the index number of item: "))
+                completed_tasks = todos[index-1]
                 todos.remove(todos[index-1])
         elif user_action.startswith("exit"):
             break

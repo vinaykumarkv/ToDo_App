@@ -1,9 +1,11 @@
 import time
+import os
 
 
-
-FILEPATH = "files\\todo_list.txt"
-
+FILEPATH = "todo_list.txt"
+if not os.path.exists(FILEPATH):
+    with open(FILEPATH, "w") as file:
+        pass
 
 def get_todos(filepath=FILEPATH):
     """Read in a text file and return a list of tasks.
